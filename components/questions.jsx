@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react');
+var React = require('react'),
+    Navigate = require('react-mini-router').navigate;
 
 var Avatar = require('material-ui/lib/avatar'),
     Colors = require('material-ui/lib/styles/colors'),
@@ -8,7 +9,11 @@ var Avatar = require('material-ui/lib/avatar'),
     ListItem = require('material-ui/lib/lists/list-item');
 
 module.exports = React.createClass({
+    _openQuestion: function() {
+        Navigate('/questions/blah');
+    },
     render: function() {
+        var that = this;
         return (
             <List subheader="Recent">
                 {Array.apply(0, Array(30)).map(function (x, i) {
@@ -22,7 +27,9 @@ module.exports = React.createClass({
                                     Brunch is good.
                                 </p>
                             }
-                            secondaryTextLines={2} />
+                            secondaryTextLines={2}
+                            onTouchTap={that._openQuestion}
+                        />
                     );
                 })}
             </List>

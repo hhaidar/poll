@@ -11,6 +11,7 @@ var AppBar = require('material-ui/lib/app-bar'),
     LeftNav = require('material-ui/lib/left-nav');
 
 var Questions = require('./questions.jsx'),
+    Question = require('./question.jsx'),
     New = require('./new.jsx');
 
 var styles = {
@@ -45,6 +46,25 @@ var Component = React.createClass({
     _toggleNav: function(e) {
         e.preventDefault();
         this.refs.leftNav.toggle();
+    },
+
+    question: function() {
+        return (
+            <div style={[ styles.container ]}>
+                <header style={[ styles.header ]}>
+                    <AppBar title="Question"
+                        iconElementLeft={
+                            <IconButton tooltip="Back" linkButton={true} href="/">
+                                <FontIcon className="material-icons">arrow_back</FontIcon>
+                            </IconButton>
+                        }
+                    />
+                </header>
+                <section style={[ styles.content ]}>
+                    <Question />
+                </section>
+            </div>
+        );
     },
 
     new: function() {
