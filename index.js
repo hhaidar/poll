@@ -2,7 +2,8 @@
 
 var Hapi = require('hapi'),
     Vision = require('vision'),
-    HapiReactViews = require('hapi-react-views');
+    HapiReactViews = require('hapi-react-views'),
+    path = require('path');
 
 var server = new Hapi.Server();
 
@@ -30,15 +31,50 @@ server.register(Vision, function (err) {
             jsx: HapiReactViews
         },
         relativeTo: __dirname,
-        path: 'views'
+        path: 'components'
     });
+});
+
+server.route({
+    method: 'GET',
+    path: '/assets/client.js',
+    handler: {
+        file: path.join(__dirname, './assets/client.js')
+    }
 });
 
 server.route({
     method: 'GET',
     path: '/', 
     handler: function(request, reply) {
-        reply.view('index');
+
+        var state = {};
+
+        // Kind of shitty solution haha
+        GLOBAL.navigator = {
+            userAgent: request.headers['user-agent']
+        }
+
+        server.render('app', state, {
+            runtimeOptions: {
+                renderMethod: 'renderToString'
+            }
+        }, function(err, output) {
+            if (err) {
+                throw err;
+            }
+            var context = {
+                remount: output,
+                state: 'window.state = ' + JSON.stringify(state) + ';'
+            };
+            server.render('html', context, function(err, html) {
+                if (err) {
+                    throw err;
+                }
+                reply(html);
+            });
+        });
+
     }
 });
 
