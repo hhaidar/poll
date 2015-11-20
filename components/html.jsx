@@ -8,6 +8,9 @@ var Component = React.createClass({
     render: function() {
         var styles = {
             body: {
+                fontFamily: 'Helvetica, Sans-serif',
+                fontSize: '15px',
+                color: '#777',
                 padding: 0,
                 margin: 0
             }
