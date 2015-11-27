@@ -28,6 +28,7 @@
     "hapi": "^11.1.1",
     "hapi-react-views": "^5.0.0",
     "inert": "^3.2.0",
+    "joi": "^7.0.0",
     "radium": "^0.15.3",
     "react": "^0.14.3",
     "react-chartjs": "^0.6.0",
@@ -35,6 +36,8 @@
     "react-mini-router": "^2.0.0",
     "react-tap-event-plugin": "^0.2.1",
     "reactify": "^1.1.1",
+    "sequelize": "^3.14.1",
+    "sqlite3": "^3.1.1",
     "vision": "^4.0.1"
   }
 }

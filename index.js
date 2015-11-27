@@ -1,11 +1,28 @@
 'use strict';
 
 var Hapi = require('hapi'),
+    Joi = require('joi'),
     Vision = require('vision'),
     HapiReactViews = require('hapi-react-views'),
+    Sequelize = require('sequelize'),
     path = require('path');
 
 var server = new Hapi.Server();
+
+var sequelize = new Sequelize(null, null, null, {
+    dialect: 'sqlite',
+    storage: 'store.db'
+});
+
+var Question = sequelize.define('question', {
+    title: {
+        type: Sequelize.STRING,
+        require: true
+    },
+    description: {
+        type: Sequelize.STRING
+    }
+});
 
 require('babel-core/register')({
     presets: ['react', 'es2015']
@@ -75,6 +92,31 @@ server.route({
             });
         });
 
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/questions/new',
+    config: {
+        validate: {
+            payload: {
+                title: Joi.string().required(),
+                description: Joi.string()
+            }
+        }
+    },
+    handler: function(request, reply) {
+        sequelize.sync().then(function() {
+            return Question.create({
+                title: request.payload.title,
+                description: request.payload.description
+            }).then(function(question) {
+                reply(question.get({
+                    plain: true
+                }));
+            });
+        });
     }
 });
 
