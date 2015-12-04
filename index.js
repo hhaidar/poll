@@ -17,7 +17,7 @@ var sequelize = new Sequelize(null, null, null, {
 var Question = sequelize.define('question', {
     title: {
         type: Sequelize.STRING,
-        require: true
+        allowNull: false
     },
     description: {
         type: Sequelize.STRING
@@ -101,7 +101,7 @@ server.route({
     config: {
         validate: {
             payload: {
-                title: Joi.string().required(),
+                title: Joi.string(),
                 description: Joi.string()
             }
         }
